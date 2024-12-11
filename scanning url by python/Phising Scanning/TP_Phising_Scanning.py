@@ -16,7 +16,6 @@ class PhishingDetector:
         self.risk_details = []
 
     def analyze_url_structure(self):
-        """Menganalisis struktur URL untuk mendeteksi potensi phishing"""
         parsed_url = urlparse(self.url)
         extracted = tldextract.extract(self.url)
 
@@ -45,7 +44,6 @@ class PhishingDetector:
             self.risk_details.append(f"TLD tidak umum: {extracted.suffix}")
 
     def fetch_page_content(self):
-        """Mengambil konten halaman web"""
         try:
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
@@ -64,7 +62,6 @@ class PhishingDetector:
             return None
 
     def check_ssl_certificate(self):
-        """Memeriksa sertifikat SSL"""
         try:
             hostname = urlparse(self.url).netloc
             context = ssl.create_default_context()
@@ -84,7 +81,6 @@ class PhishingDetector:
             self.risk_details.append(f"Masalah dengan sertifikat SSL: {str(e)}")
 
     def analyze_whois_data(self):
-        """Menganalisis informasi domain"""
         try:
             domain = urlparse(self.url).netloc
             w = whois.whois(domain)
@@ -105,7 +101,6 @@ class PhishingDetector:
             self.risk_details.append(f"Gagal mengambil data WHOIS: {str(e)}")
 
     def classify_risk(self):
-        """Mengklasifikasikan tingkat risiko"""
         if self.risk_score <= 20:
             return "Aman"
         elif 20 < self.risk_score <= 50:
@@ -116,7 +111,6 @@ class PhishingDetector:
             return "Phishing Berbahaya"
 
     def detect(self):
-        """Proses utama deteksi phishing"""
         self.analyze_url_structure()
         self.check_ssl_certificate()
         self.analyze_whois_data()
